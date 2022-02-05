@@ -1,20 +1,11 @@
 import {
-  START_FETCHING_POKEMON_LIST,
-  SUCCESS_FETCHING_POKEMON_LIST,
-  ERROR_FETCHING_POKEMON_LIST,
+  FECH_POKEMON_TYPES_LIST,
   ADD_POKEMON_TO_LIST
 } from './PokemonActionsTypes';
 
-export const fetchPokemonStart = () => ({
-  type: START_FETCHING_POKEMON_LIST,
-});
-
-export const fetchPokemonSuccess = () => ({
-  type: SUCCESS_FETCHING_POKEMON_LIST,
-});
-
-export const fetchPokemonError = () => ({
-  type: ERROR_FETCHING_POKEMON_LIST,
+export const fetchPokemonTypes = (types) => ({
+  type: FECH_POKEMON_TYPES_LIST,
+  payload: types
 });
 
 export const addPokemon = (pokemon) => ({

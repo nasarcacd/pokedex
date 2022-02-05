@@ -10,22 +10,24 @@ import {
   TextInput,
 } from 'react-native';
 import {connect, useDispatch} from 'react-redux';
-import {fetchPokemonsAPI} from '../../services/PokemonService';
+import {fetchPokemons, fetchPokemonsTypes} from '../../services/PokemonService';
 
-const Pokemons = ({navigation, pokemons}) => {
+const Pokemons = ({navigation, pokemons, types}) => {
   const dispatch = useDispatch();
   const [filterName, setFilterName] = useState('');
   const [filteredPokemon, setFilteredPokemon] = useState([]);
 
   useEffect(() => {
-    dispatch(fetchPokemonsAPI());
+    dispatch(fetchPokemons());
+    dispatch(fetchPokemonsTypes());
   }, []);
 
   useEffect(() => {
     setFilteredPokemon(
-      pokemons.filter((pokemon) =>
-      pokemon.name.toLowerCase().includes(filterName.toLowerCase())
-      ))
+      pokemons.filter(pokemon =>
+        pokemon.name.toLowerCase().includes(filterName.toLowerCase()),
+      ),
+    );
   }, [pokemons, filterName]);
 
   return (
@@ -50,7 +52,6 @@ const Pokemons = ({navigation, pokemons}) => {
         value={filterName}
         onChangeText={setFilterName}
       />
-
       <View style={styles.pokemonContainer}>
         <FlatList
           data={filteredPokemon}
@@ -65,7 +66,7 @@ const Pokemons = ({navigation, pokemons}) => {
                     uri: item.photo,
                   }}
                 />
-                <Text style={styles.pokemonName}>{item.name}</Text>
+                <Text style={styles.name}>{item.name}</Text>
               </View>
             </TouchableHighlight>
           )}
@@ -77,7 +78,6 @@ const Pokemons = ({navigation, pokemons}) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     padingTop: 20,
     alignItems: 'center',
     flexDirection: 'column',
@@ -95,6 +95,11 @@ const styles = StyleSheet.create({
   pokemonContainer: {
     flexDirection: 'column',
   },
+  typeListItem: {
+    justifyContent: 'center',
+    display: 'flex',
+    alignItems: 'center',
+  },
   listItem: {
     margin: 10,
     height: 150,
@@ -103,9 +108,21 @@ const styles = StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
   },
-  pokemonName: {
+  name: {
     fontSize: 20,
     fontWeight: 'bold',
+  },
+  typeContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    overflow: 'visible',
+  },
+  typeItem: {
+    margin: 10,
+  },
+  type: {
+    fontSize: 15,
+    margin: 10,
   },
   tinyLogo: {
     width: 150,
@@ -122,6 +139,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = ({pokemonStore}) => {
   return {
     pokemons: pokemonStore.pokemonList,
+    types: pokemonStore.typesList,
   };
 };
 

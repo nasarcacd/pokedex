@@ -1,9 +1,9 @@
 import axios from 'axios';
-import {addPokemon} from '../actions/pokemon/PokemonActions';
+import {addPokemon, fetchPokemonTypes} from '../actions/pokemon/PokemonActions';
 
 axios.defaults.baseURL = 'https://pokeapi.co/api/v2';
 
-export const fetchPokemonsAPI = () => dispatch => {
+export const fetchPokemons = () => dispatch => {
   axios
     .get('/pokemon?limit=151')
     .then(response => {
@@ -34,4 +34,13 @@ export const fetchPokemonsAPI = () => dispatch => {
       });
     })
     .catch(error => console.log('error adding pokemon', error));
+};
+
+export const fetchPokemonsTypes = () => dispatch => {
+  axios
+    .get('/type')
+    .then(response => {
+      dispatch(fetchPokemonTypes(response.data.results));
+    })
+    .catch(error => console.log('error getting pokemon types', error));
 };
