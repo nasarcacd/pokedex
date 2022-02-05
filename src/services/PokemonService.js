@@ -1,15 +1,9 @@
 import axios from 'axios';
-import {
-  fetchPokemonStart,
-  fetchPokemonSuccess,
-  fetchPokemonError,
-  addPokemon,
-} from '../actions/pokemon/PokemonActions';
+import {addPokemon} from '../actions/pokemon/PokemonActions';
 
 axios.defaults.baseURL = 'https://pokeapi.co/api/v2';
 
 export const fetchPokemonsAPI = () => dispatch => {
-  dispatch(fetchPokemonStart());
   axios
     .get('/pokemon?limit=151')
     .then(response => {
@@ -21,17 +15,17 @@ export const fetchPokemonsAPI = () => dispatch => {
               id: pokemonDetails.id,
               name: pokemonDetails.name,
               types: pokemonDetails.types,
-              typesDetails: pokemonDetails.types.reduce((typs, element, index) => {
-                return index === 1
-                  ? element.type.name.replace("-"," ")
-                  : typs + ', ' + element.type.name.replace("-"," ")
-              }),
+              typesDetails: pokemonDetails.types
+                .map(element => {
+                  return element.type.name;
+                })
+                .toString(),
               photo: pokemonDetails.sprites.front_default,
-              moves: pokemonDetails.moves.reduce((movs, element, index) => {
-                return index === 1
-                  ? element.move.name.replace("-"," ")
-                  : movs + ', ' + element.move.name.replace("-"," ")
-              }),
+              moves: pokemonDetails.moves
+                .map(element => {
+                  return element.move.name.replace('-', ' ');
+                })
+                .toString(),
               height: pokemonDetails.height,
               weight: pokemonDetails.weight,
             }),
@@ -39,5 +33,5 @@ export const fetchPokemonsAPI = () => dispatch => {
         });
       });
     })
-    .catch(error => dispatch(fetchPokemonError()));
+    .catch(error => console.log('error adding pokemon', error));
 };

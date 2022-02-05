@@ -9,23 +9,23 @@ import {
 } from 'react-native';
 import {connect} from 'react-redux';
 
-const Entrenadores = ({navigation, pokemons}) => {
+const EntrenadoresHome = ({navigation, entrenadores}) => {
   return (
     <View style={styles.container}>
       <View style={styles.navegationContainer}>
           <Button
             color="red"
             title="Agregar entrenador"
-            onPress={() => alert('Left button pressed')}
+            onPress={() => navigation.navigate('AgregarEntrenador', {})}
           />
       </View>
-      <View style={styles.pokemonContainer}>
+      <View style={styles.entrenadoresContainer}>
         <FlatList
-          data={[{name: "entrenador 1"}]}
-          renderItem={({item}) => (
-            <TouchableHighlight key={item.id} onPress={() => alert(item.name)}>
+          data={entrenadores}
+          renderItem={({item, index}) => (
+            <TouchableHighlight key={index} onPress={() => navigation.navigate('DetalleEntrenador', {...item})}>
               <View style={styles.listItem}>
-                <Text style={styles.pokemonName}>{item.name}</Text>
+                <Text style={styles.name}>{item.nombre}</Text>
               </View>
             </TouchableHighlight>
           )}
@@ -37,6 +37,7 @@ const Entrenadores = ({navigation, pokemons}) => {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     padingTop: 20,
     alignItems: 'center',
     flexDirection: 'column',
@@ -51,18 +52,18 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#206796',
   },
-  pokemonContainer: {
+  entrenadoresContainer: {
     flexDirection: 'column',
   },
   listItem: {
-    margin: 30,
-    height: 150,
-    width: 200,
+    margin: 15,
+    height: 50,
+    width: 50,
     justifyContent: 'center',
     display: 'flex',
     alignItems: 'center',
   },
-  pokemonName: {
+  name: {
     fontSize: 20,
     fontWeight: 'bold',
   },
@@ -78,10 +79,10 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = ({pokemonStore}) => {
+const mapStateToProps = ({entrenadoresStore}) => {
   return {
-    pokemons: pokemonStore.pokemonList,
+    entrenadores: entrenadoresStore.entrenadoresList,
   };
 };
 
-export default connect(mapStateToProps)(Entrenadores);
+export default connect(mapStateToProps)(EntrenadoresHome);

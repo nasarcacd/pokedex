@@ -9,7 +9,7 @@ import {
   Button,
 } from 'react-native';
 import {connect, useDispatch} from 'react-redux';
-import {fetchPokemonsAPI} from '../services/PokemonService';
+import {fetchPokemonsAPI} from '../../services/PokemonService';
 
 const Pokemons = ({navigation, pokemons}) => {
   const dispatch = useDispatch();
@@ -19,17 +19,15 @@ const Pokemons = ({navigation, pokemons}) => {
   return (
     <View style={styles.container}>
       <View style={styles.navegationContainer}>
-          <Button
-            color="red"
-            title="Entrenadores"
-            onPress={() =>
-              navigation.navigate('Entrenadores', {})
-            }
-          />
-          <Button
-            title="Equipos"
-            onPress={() => alert('Right button pressed')}
-          />
+        <Button
+          color="red"
+          title="Entrenadores"
+          onPress={() => navigation.navigate('Entrenadores', {})}
+        />
+        <Button
+          title="Equipos"
+          onPress={() => navigation.navigate('Equipos', {})}
+        />
       </View>
 
       <View style={styles.titleContainer}>
@@ -40,7 +38,9 @@ const Pokemons = ({navigation, pokemons}) => {
         <FlatList
           data={pokemons}
           renderItem={({item}) => (
-            <TouchableHighlight key={item.id} onPress={() => navigation.navigate('DetallePokemon', {...item})}>
+            <TouchableHighlight
+              key={item.id}
+              onPress={() => navigation.navigate('DetallePokemon', {...item})}>
               <View style={styles.listItem}>
                 <Image
                   style={styles.tinyLogo}
@@ -60,6 +60,7 @@ const Pokemons = ({navigation, pokemons}) => {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     padingTop: 20,
     alignItems: 'center',
     flexDirection: 'column',

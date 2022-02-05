@@ -13,22 +13,14 @@ const DetallePokemon = ({route}) => {
           uri: route.params.photo,
         }}
       />
-      <View>
-        <Text style={styles.titleList}>Movimientos:</Text>
-        <Text style={styles.titleListValue}>{route.params.moves}</Text>
-      </View>
-      <View>
-        <Text style={styles.titleList}>Altura:</Text>
-        <Text style={styles.titleListValue}>{route.params.height}</Text>
-      </View>
-      <View>
-        <Text style={styles.titleList}>Peso:</Text>
-        <Text style={styles.titleListValue}>{route.params.weight}</Text>
-      </View>
-      <View>
-        <Text style={styles.titleList}>Tipo:</Text>
-        <Text style={styles.titleListValue}>{route.params.typesDetails}</Text>
-      </View>
+      <Text style={styles.titleList}>Movimientos:</Text>
+      <Text style={styles.titleListValue}>{route.params.moves}</Text>
+      <Text style={styles.titleList}>Altura:</Text>
+      <Text style={styles.titleListValue}>{route.params.height}</Text>
+      <Text style={styles.titleList}>Peso:</Text>
+      <Text style={styles.titleListValue}>{route.params.weight}</Text>
+      <Text style={styles.titleList}>Tipo:</Text>
+      <Text style={styles.titleListValue}>{route.params.typesDetails}</Text>
     </View>
   );
 };
@@ -43,7 +35,7 @@ const styles = StyleSheet.create({
   },
   logo: {
     width: 200,
-    height: 200,
+    height: 150,
   },
   title: {
     marginTop: 20,
@@ -56,7 +48,8 @@ const styles = StyleSheet.create({
     color: '#000000',
   },
   titleListValue: {
-    fontSize: 11,
+    fontSize: 12,
+    textAlign: 'justify',
   },
 });
 
