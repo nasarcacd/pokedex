@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   FlatList,
   StyleSheet,
@@ -7,15 +7,27 @@ import {
   Image,
   TouchableHighlight,
   Button,
+  TextInput,
 } from 'react-native';
 import {connect, useDispatch} from 'react-redux';
 import {fetchPokemonsAPI} from '../../services/PokemonService';
 
 const Pokemons = ({navigation, pokemons}) => {
   const dispatch = useDispatch();
+  const [filterName, setFilterName] = useState('');
+  const [filteredPokemon, setFilteredPokemon] = useState([]);
+
   useEffect(() => {
     dispatch(fetchPokemonsAPI());
   }, []);
+
+  useEffect(() => {
+    setFilteredPokemon(
+      pokemons.filter((pokemon) =>
+      pokemon.name.toLowerCase().includes(filterName.toLowerCase())
+      ))
+  }, [pokemons, filterName]);
+
   return (
     <View style={styles.container}>
       <View style={styles.navegationContainer}>
@@ -29,14 +41,19 @@ const Pokemons = ({navigation, pokemons}) => {
           onPress={() => navigation.navigate('Equipos', {})}
         />
       </View>
-
       <View style={styles.titleContainer}>
         <Text style={styles.titleItemContainer}>151 pokémon</Text>
-        <Text style={styles.titleItemContainer}>Filtros:</Text>
       </View>
+      <TextInput
+        placeholder="Filtrar por nombre"
+        keyboardType="web-search"
+        value={filterName}
+        onChangeText={setFilterName}
+      />
+
       <View style={styles.pokemonContainer}>
         <FlatList
-          data={pokemons}
+          data={filteredPokemon}
           renderItem={({item}) => (
             <TouchableHighlight
               key={item.id}
@@ -71,15 +88,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   titleItemContainer: {
-    marginLeft: 30,
     fontWeight: 'bold',
     color: '#206796',
+    fontSize: 20,
   },
   pokemonContainer: {
     flexDirection: 'column',
   },
   listItem: {
-    margin: 30,
+    margin: 10,
     height: 150,
     width: 200,
     justifyContent: 'center',
